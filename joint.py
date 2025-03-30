@@ -63,6 +63,8 @@ class Joint:
 
                     self.writer.write(modulation)
         except KeyboardInterrupt:
+            self.calculator.terminate()
+
             logger.info("[*] Execution halted by user.")
 
     def actuate(self) -> None:
