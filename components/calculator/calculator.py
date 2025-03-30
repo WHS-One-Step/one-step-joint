@@ -71,8 +71,8 @@ class Calculator:
         self.thigh_quaternion: numpy.ndarray = numpy.array([1.0, 0.0, 0.0, 0.0])
         self.shank_quaternion: numpy.ndarray = numpy.array([1.0, 0.0, 0.0, 0.0])
 
-        # Acuated:
-        self.acuated: bool = False
+        # Actuated:
+        self.actuated: bool = False
 
         # Offset:
         self.calibration_offset: float = 0.0
@@ -105,8 +105,8 @@ class Calculator:
         return int(modulation)
 
     def handle_thigh_imu(self, spatial: Spatial, acceleration: List[float], angular_rotation: List[float], magnetic_field: List[float], timestamp: float) -> None:
-        if not self.acuated:
-            logger.error("[*] Handler set when calculator not acuated.")
+        if not self.actuated:
+            logger.error("[*] Handler set when calculator not Actuated.")
 
             return
 
@@ -129,8 +129,8 @@ class Calculator:
             logger.error(f"[!] Error: {exception}")
 
     def handle_shank_imu(self, spatial: Spatial, acceleration: List[float], angular_rotation: List[float], magnetic_field: List[float], timestamp: float) -> None:
-        if not self.acuated:
-            logger.error("[*] Handler set when calculator not acuated.")
+        if not self.actuated:
+            logger.error("[*] Handler set when calculator not Actuated.")
 
             return
 
@@ -153,8 +153,8 @@ class Calculator:
             logger.error(f"[!] Error: {exception}")
 
     def terminate(self) -> None:
-        if not self.acuated:
-            logger.error("[*] Attempted to terminate when calculator not acuated.")
+        if not self.actuated:
+            logger.error("[*] Attempted to terminate when calculator not Actuated.")
 
             return
 
@@ -163,12 +163,12 @@ class Calculator:
 
         logger.info("[*] IMUs disconnected.")
 
-        self.acuated = False
+        self.actuated = False
 
     def calibrate(self) -> None:
         # Logic:
-        if not self.acuated:
-            logger.error("[*] Attempted to calibrate when calculator not acuated.")
+        if not self.actuated:
+            logger.error("[*] Attempted to calibrate when calculator not Actuated.")
 
             return
 
@@ -182,8 +182,8 @@ class Calculator:
         logger.warning(f"[*] Calibrated angle: {self.calibration_offset}")
 
     def calculate(self) -> Optional[float]:
-        if not self.acuated:
-            logger.error("[*] Attempted to calculate when calculator not acuated.")
+        if not self.actuated:
+            logger.error("[*] Attempted to calculate when calculator not Actuated.")
 
             return
 
@@ -235,6 +235,8 @@ class Calculator:
         return value
 
     def actuate(self) -> None:
+        self.actuated = True
+
         try:
             # Initialization:
             self.thigh_imu.openWaitForAttachment(5000)
