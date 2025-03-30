@@ -8,4 +8,4 @@ from .calculator import Calculator
 from .writer import Writer
 
 # Agent:
-from .agent import Agent
+from .learner import Learner 

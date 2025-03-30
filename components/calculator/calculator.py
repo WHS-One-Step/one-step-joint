@@ -46,6 +46,9 @@ class Stack:
         if len(self.stack) > value:
             self.stack.pop(0)
 
+    def __len__(self) -> int:
+        return len(self.stack)
+
 
 # Calculator:
 class Calculator:
@@ -86,11 +89,11 @@ class Calculator:
         self.shank_imu.setDeviceSerialNumber(721888)
 
         # Stacks:
-        self.thigh_acceleration_readings: Stack = Stack(limit=20)
-        self.thigh_gyroscope_readings: Stack = Stack(limit=20)
+        self.thigh_acceleration_readings: Stack = Stack(limit=3)
+        self.thigh_gyroscope_readings: Stack = Stack(limit=3)
 
-        self.shank_acceleration_readings: Stack = Stack(limit=20)
-        self.shank_gyroscope_readings: Stack = Stack(limit=20)
+        self.shank_acceleration_readings: Stack = Stack(limit=3)
+        self.shank_gyroscope_readings: Stack = Stack(limit=3)
 
     # Methods:
     def handle_thigh_imu(self, spatial: Spatial, acceleration: List[float], angular_rotation: List[float], magnetic_field: List[float], timestamp: float) -> None:
@@ -168,7 +171,7 @@ class Calculator:
         # Logic:
         self.calibration_offset = degrees(acos(self.clamp(-1.0, dot_product, 1.0)))
 
-        logger.warn(f"[*] Calibrated angle: {self.calibration_offset}")
+        logger.warning(f"[*] Calibrated angle: {self.calibration_offset}")
 
     def calculate(self) -> Optional[float]:
         if not self.acuated:
@@ -244,4 +247,3 @@ class Calculator:
 
         except PhidgetException as exception:
             logger.error(f"[!] Error: {exception}")
-

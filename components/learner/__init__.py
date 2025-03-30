@@ -1,5 +1,5 @@
 # Written by: Christopher Gholmieh
 # Imports:
 
-# Agent:
-from .agent import Agent
+# Learner:
+from .learner import Learner
