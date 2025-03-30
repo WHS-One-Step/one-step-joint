@@ -96,7 +96,7 @@ class Calculator:
         self.shank_gyroscope_readings: Stack = Stack(limit=3)
 
     # Methods:
-    def calculate_pulse_modulation(angle: float) -> int:
+    def calculate_pulse_modulation(self, angle: float) -> int:
         # Variables (Assignment):
         # Modulation:
         modulation: float = 31 + ((angle * (255 - 31)) / 180)
