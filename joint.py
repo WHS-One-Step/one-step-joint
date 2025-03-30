@@ -68,3 +68,8 @@ class Joint:
 
         # Logic:
         self.loop()
+
+
+# Main:
+joint: Joint = Joint()
+joint.actuate()
