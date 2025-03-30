@@ -221,6 +221,8 @@ class Calculator:
                 # Logic:
                 if self.debug:
                     logger.info(f"[*] Flexion angle (Acceleration): {flexion}")
+                
+                return flexion
 
         except Exception as exception:
             logger.error(f"[!] Error: {exception}")

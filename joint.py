@@ -4,6 +4,9 @@
 # Components:
 from components import Calculator, Learner, Writer
 
+# Typing:
+from typing import Optional
+
 # Loguru:
 from loguru import logger
 
@@ -48,7 +51,7 @@ class Joint:
                     ])
 
                     # Flexion:
-                    flexion: float = self.calculator.calculate()
+                    flexion: Optional[float] = self.calculator.calculate()
 
                     # Modulation:
                     modulation: int = self.calculator.calculate_pulse_modulation(flexion)
