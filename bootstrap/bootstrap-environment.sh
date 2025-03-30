@@ -4,7 +4,7 @@
 # Functions:
 function bootstrap-environment {
     # Validation:
-    if [ ! -f ./main.py ]; then
+    if [ ! -f ./joint.py ]; then
         echo "[!] Please rerun this script in the project directory." && exit
     fi
 
