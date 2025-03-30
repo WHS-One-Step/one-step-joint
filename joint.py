@@ -43,7 +43,7 @@ class Joint:
                     # Prediction:
                     prediction: str = self.learner.predict([
                         acceleration_vector + gyroscope_vector for acceleration_vector, gyroscope_vector in zip(
-                            self.calculator.shank_acceleration_readings, self.calculator.shank_gyroscope_readings
+                            self.calculator.shank_acceleration_readings.stack, self.calculator.shank_gyroscope_readings.stack
                         )
                     ])
 
