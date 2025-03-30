@@ -1,11 +1,13 @@
 colorama==0.4.6
 joblib==1.4.2
+lgpio==0.2.2.0
 loguru==0.7.3
 numpy==2.2.4
 pandas==2.2.3
 phidget22==1.22.20250106
 python-dateutil==2.9.0.post0
 pytz==2025.2
+rpi-lgpio==0.6
 RPi.GPIO==0.7.1
 scikit-learn==1.6.1
 scipy==1.15.2
