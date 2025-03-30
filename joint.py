@@ -50,9 +50,15 @@ class Joint:
                     # Flexion:
                     flexion: float = self.calculator.calculate()
 
+                    # Modulation:
+                    modulation: int = self.calculator.calculate_pulse_modulation(flexion)
+
                     # Logic:
                     logger.info(f"[*] Prediction: {prediction}")
                     logger.info(f"[*] Flexion: {flexion}")
+                    logger.info(f"[*] Modulation: {modulation}")
+
+                    self.writer.write(modulation)
         except KeyboardInterrupt:
             logger.info("[*] Execution halted by user.")
 

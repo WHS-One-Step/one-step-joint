@@ -96,6 +96,14 @@ class Calculator:
         self.shank_gyroscope_readings: Stack = Stack(limit=3)
 
     # Methods:
+    def calculate_pulse_modulation(angle: float) -> int:
+        # Variables (Assignment):
+        # Modulation:
+        modulation: float = 31 + ((angle * (255 - 31)) / 180)
+
+        # Logic:
+        return int(modulation)
+
     def handle_thigh_imu(self, spatial: Spatial, acceleration: List[float], angular_rotation: List[float], magnetic_field: List[float], timestamp: float) -> None:
         if not self.acuated:
             logger.error("[*] Handler set when calculator not acuated.")
