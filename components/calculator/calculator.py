@@ -43,7 +43,7 @@ class Stack:
     def append(self, value: Any) -> None:
         self.stack.append(value)
 
-        if len(self.stack) > value:
+        if len(self.stack) > self.limit:
             self.stack.pop(0)
 
     def __len__(self) -> int:
