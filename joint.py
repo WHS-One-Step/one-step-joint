@@ -64,6 +64,7 @@ class Joint:
                     self.writer.write(modulation)
         except KeyboardInterrupt:
             self.calculator.terminate()
+            self.writer.clear()
 
             logger.info("[*] Execution halted by user.")
 

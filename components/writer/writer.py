@@ -48,6 +48,9 @@ class Writer:
             logger.info("[*] Initialized GPIO output pins.")
 
     def write(self, value: int) -> None:
+        # Logic:
+        self.clear()
+
         # Variables (Assignment):
         # Binary:
         binary: str = format(value, "08b")
@@ -57,3 +60,7 @@ class Writer:
             GPIO.output(self.pins[iteration], GPIO.HIGH if bit == "1" else GPIO.LOW)
 
         logger.info(f"[*] Wrote {value} to GPIO pins.")
+
+    def clear(self) -> None:
+        for pin in self.pins:
+            GPIO.output(pin, GPIO.LOW)
