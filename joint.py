@@ -61,7 +61,11 @@ class Joint:
                     logger.info(f"[*] Flexion: {flexion}")
                     logger.info(f"[*] Modulation: {modulation}")
 
-                    self.writer.write(modulation)
+                    if prediction == "standing still":
+                        self.writer.write_stop()
+                    else:
+                        self.writer.write(modulation)
+
         except KeyboardInterrupt:
             self.calculator.terminate()
             self.writer.clear()
