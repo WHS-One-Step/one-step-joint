@@ -11,6 +11,9 @@ from loguru import logger
 # Typing:
 from typing import Optional, List, Any
 
+# CTypes:
+import ctypes
+
 # Scipy:
 from scipy.spatial.transform import Rotation
 
@@ -57,6 +60,8 @@ class Calculator:
         * NOTE: Please add type functionality for existing things such as rotations.
 
         * NOTE: When calibrating, keep knee fully extended.
+
+    * 4/6/2025: Introducing functionality of C integrations.
     """
 
     # Initialization:
@@ -95,14 +100,26 @@ class Calculator:
         self.shank_acceleration_readings: Stack = Stack(limit=3)
         self.shank_gyroscope_readings: Stack = Stack(limit=3)
 
+        # Library:
+        self.library: ctypes.CDLL = ctypes.CDLL("./one-step-optimizations/calculator-optimizations.so")
+
+        self.library.calculate_pulse_modulation.argtypes = [ctypes.c_double]
+        self.library.calculate_pulse_modulation.restype = ctypes.c_int
+
+        self.library.clamp.argtypes = [ctypes.c_double, ctypes.c_double, ctypes.c_double]
+        self.library.clamp.restype = ctypes.c_double
+
+        self.library.calculate_flexion.argtypes = [
+            ctypes.POINTER(ctypes.c_double),
+            ctypes.POINTER(ctypes.c_double),
+            ctypes.c_double,
+        ]
+
+        self.library.calculate_flexion.restype = ctypes.c_double
+
     # Methods:
     def calculate_pulse_modulation(self, angle: float) -> int:
-        # Variables (Assignment):
-        # Modulation:
-        modulation: float = 31 + ((angle * (255 - 31)) / 180)
-
-        # Logic:
-        return int(modulation)
+        return self.library.calculate_pulse_modulation(angle)
 
     def handle_thigh_imu(self, spatial: Spatial, acceleration: List[float], angular_rotation: List[float], magnetic_field: List[float], timestamp: float) -> None:
         if not self.actuated:
@@ -210,13 +227,12 @@ class Calculator:
                 return flexion
             else:
                 # Variables (Assignment):
-                # Dot:
-                dot_product = numpy.dot(self.thigh_orientation, self.shank_orientation)
+                # Arrays:
+                thigh_array = (ctypes.c_double * 3)(*self.thigh_orientation)
+                shank_array = (ctypes.c_double * 3)(*self.shank_orientation)
 
-                # Offset:
-                flexion: float = degrees(acos(self.clamp(-1.0, dot_product, 1.0))) + self.calibration_offset
-
-                flexion: float = self.clamp(0.0, flexion, 180.0)
+                # Flexion:
+                flexion: float = self.library.calculate_flexion(thigh_array, shank_array, self.calibration_offset)
 
                 # Logic:
                 if self.debug:
@@ -228,13 +244,7 @@ class Calculator:
             logger.error(f"[!] Error: {exception}")
 
     def clamp(self, minimum: float, value: float, maximum: float) -> float:
-        if minimum > value:
-            return minimum
-
-        if value > maximum:
-            return maximum
-
-        return value
+        return self.library.clamp(minimum, float, maximum)
 
     def actuate(self) -> None:
         self.actuated = True
