@@ -24,8 +24,19 @@ class Writer:
         * GPIO 08: 64
         * GPIO 07: 128
 
+        * Blue:       GPIO 14 (RPI) and input 06  (Arduino)   [Bit 1]
+        * Dark Red:   GPIO 15 (RPI) and input 07  (Arduino)   [Bit 2]
+        * Yellow:     GPIO 18 (RPI) and input 08  (Arduino)   [Bit 4]
+        * Green:      GPIO 23 (RPI) and input 09  (Arduino)   [Bit 8]
+        * Bright Red: GPIO 24 (RPI) and input 10 (Arduino)   [Bit 16]
+        * Yellow:     GPIO 25 (RPI) and input 11 (Arduino)   [Bit 32]
+        * Orange:     GPIO 8 (RPI)  and input 12 (Arduino)   [Bit 64]
+        * Brown:      GPIO 7 (RPI)  and input 13 (Arduino)   [Bit 128]
+
     * Has functionality to write a value to designated STOP pin.
         * GPIO 12: STOP
+
+        * Black: GPIO 12 (RPI) and input 5 (Arduino) 
     """
 
     # Initialization:
