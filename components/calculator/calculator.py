@@ -103,19 +103,19 @@ class Calculator:
         # Library:
         self.library: ctypes.CDLL = ctypes.CDLL("./one-step-optimizations/calculator-optimizations.so")
 
-        self.library.calculate_pulse_modulation.argtypes = [ctypes.c_double]
+        self.library.calculate_pulse_modulation.argtypes = [ctypes.c_float]
         self.library.calculate_pulse_modulation.restype = ctypes.c_int
 
-        self.library.clamp.argtypes = [ctypes.c_double, ctypes.c_double, ctypes.c_double]
-        self.library.clamp.restype = ctypes.c_double
+        self.library.clamp.argtypes = [ctypes.c_float, ctypes.c_float, ctypes.c_float]
+        self.library.clamp.restype = ctypes.c_float
 
         self.library.calculate_flexion.argtypes = [
-            ctypes.POINTER(ctypes.c_double),
-            ctypes.POINTER(ctypes.c_double),
-            ctypes.c_double,
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.c_float,
         ]
 
-        self.library.calculate_flexion.restype = ctypes.c_double
+        self.library.calculate_flexion.restype = ctypes.c_float
 
     # Methods:
     def calculate_pulse_modulation(self, angle: float) -> int:
@@ -228,8 +228,8 @@ class Calculator:
             else:
                 # Variables (Assignment):
                 # Arrays:
-                thigh_array = (ctypes.c_double * 3)(*self.thigh_orientation)
-                shank_array = (ctypes.c_double * 3)(*self.shank_orientation)
+                thigh_array = (ctypes.c_float * 3)(*self.thigh_orientation)
+                shank_array = (ctypes.c_float * 3)(*self.shank_orientation)
 
                 # Flexion:
                 flexion: float = self.library.calculate_flexion(thigh_array, shank_array, self.calibration_offset)
@@ -244,7 +244,7 @@ class Calculator:
             logger.error(f"[!] Error: {exception}")
 
     def clamp(self, minimum: float, value: float, maximum: float) -> float:
-        return self.library.clamp(minimum, float, maximum)
+        return self.library.clamp(minimum, value, maximum)
 
     def actuate(self) -> None:
         self.actuated = True
