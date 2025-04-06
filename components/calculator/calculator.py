@@ -109,13 +109,13 @@ class Calculator:
         self.library.clamp.argtypes = [ctypes.c_float, ctypes.c_float, ctypes.c_float]
         self.library.clamp.restype = ctypes.c_float
 
-        self.library.calculate_flexion.argtypes = [
+        self.library.calculate_flexion_angle.argtypes = [
             ctypes.POINTER(ctypes.c_float),
             ctypes.POINTER(ctypes.c_float),
             ctypes.c_float,
         ]
 
-        self.library.calculate_flexion.restype = ctypes.c_float
+        self.library.calculate_flexion_angle.restype = ctypes.c_float
 
     # Methods:
     def calculate_pulse_modulation(self, angle: float) -> int:
@@ -232,7 +232,7 @@ class Calculator:
                 shank_array = (ctypes.c_float * 3)(*self.shank_orientation)
 
                 # Flexion:
-                flexion: float = self.library.calculate_flexion(thigh_array, shank_array, self.calibration_offset)
+                flexion: float = self.library.calculate_flexion_angle(thigh_array, shank_array, self.calibration_offset)
 
                 # Logic:
                 if self.debug:
