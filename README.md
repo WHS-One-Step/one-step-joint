@@ -26,5 +26,5 @@ chmod +x ./bootstrap/* # Transform the scripts into executables.
 ./bootstrap/bootstrap-raspberry.sh # Install appropriate linux dependencies.
 ./bootstrap/bootstrap-environment.sh # Install appropriate python dependencies and virtual environment.
 
-python3 ./joint.py # Run the python project.
+venv/bin/python ./joint.py # Run the python project.
 ```
