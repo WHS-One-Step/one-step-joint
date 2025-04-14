@@ -36,3 +36,23 @@ chmod +x ./bootstrap/* # Transform the scripts into executables.
 
 venv/bin/python ./joint.py # Run the python project.
 ```
+
+## Frameworks:
+No frameworks were used in this repository, however an extensive amount of libraries came together to make this project possible. The libraries used are as follows:
+- Joblib (Serialization of learner instances)
+  
+- Loguru (Logging information, warnings, and errors for debugging)
+
+- Numpy (Optimized math functions for extensive calculations, such as dot products of matrices for angle calculation)
+
+- Pandas (CSV processing for learner models)
+
+- Phidget22 (Python library used to communicate with PhidgetSpatial Precision 3/3/3 IMUs)
+
+- Scikit-learn (Used to create decision tree RainForestClassifier learner models to predict gait state)
+
+- Scipy (Used for quaternion processing)
+
+- Wiringpi (A C library used to provide low level access to GPIO pins)
+
+- RPi.GPIO (Python library used to provide access to GPIO pins)
