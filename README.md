@@ -57,3 +57,8 @@ No frameworks were used in this repository, however an extensive amount of libra
 - Wiringpi (A C library used to provide low level access to GPIO pins)
 
 - RPi.GPIO (Python library used to provide access to GPIO pins)
+
+- Ctypes (Python library allowing for C bindings to be used to increase performance, e.g when performing extensive math calculations)
+
+## Languages:
+The two languages that make up this project are Python and C, not including the C-like language provided by Arduino. Python has an extensive support for libraries, allowing for faster development productivity. Code was optimized utilizing C through shared libraries and the **GCC** compiler, permitting compilation.
