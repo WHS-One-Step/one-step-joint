@@ -21,6 +21,10 @@ This is the official source code repository powering the prosthetic leg for team
 
 ## Installation:
 ```bash
+# Clone Repository:
+git clone https://https://github.com/whs-one-step/one-step-joint && cd ./one-step-joint/
+
+# Instructions:
 chmod +x ./bootstrap/* # Transform the scripts into executables.
 
 ./bootstrap/bootstrap-raspberry.sh # Install appropriate linux dependencies.
