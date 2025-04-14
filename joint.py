@@ -17,7 +17,7 @@ from time import sleep
 # Joint:
 class Joint:
     # Constants:
-    INTERVAL_DELAY: float = 1.0
+    INTERVAL_DELAY: float = 0.50
 
     # Initialization:
     def __init__(self) -> None:
@@ -62,13 +62,13 @@ class Joint:
                     logger.info(f"[*] Modulation: {modulation}")
 
                     if prediction == "standing still":
-                        self.writer.write_stop()
+                        self.writer.write_stop_pin()
                     else:
-                        self.writer.write(modulation)
+                        self.writer.write_pulse_modulation(modulation)
 
         except KeyboardInterrupt:
             self.calculator.terminate()
-            self.writer.clear()
+            self.writer.write_pulse_modulation(0)
 
             logger.info("[*] Execution halted by user.")
 

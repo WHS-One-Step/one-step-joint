@@ -10,6 +10,9 @@ from loguru import logger
 # Typing:
 from typing import List
 
+# CTypes:
+import ctypes
+
 
 # Writer:
 class Writer:
@@ -24,19 +27,8 @@ class Writer:
         * GPIO 08: 64
         * GPIO 07: 128
 
-        * Blue:       GPIO 14 (RPI) and input 06  (Arduino)   [Bit 1]
-        * Dark Red:   GPIO 15 (RPI) and input 07  (Arduino)   [Bit 2]
-        * Yellow:     GPIO 18 (RPI) and input 08  (Arduino)   [Bit 4]
-        * Green:      GPIO 23 (RPI) and input 09  (Arduino)   [Bit 8]
-        * Bright Red: GPIO 24 (RPI) and input 10 (Arduino)   [Bit 16]
-        * Yellow:     GPIO 25 (RPI) and input 11 (Arduino)   [Bit 32]
-        * Orange:     GPIO 8 (RPI)  and input 12 (Arduino)   [Bit 64]
-        * Brown:      GPIO 7 (RPI)  and input 13 (Arduino)   [Bit 128]
-
     * Has functionality to write a value to designated STOP pin.
         * GPIO 12: STOP
-
-        * Black: GPIO 12 (RPI) and input 5 (Arduino) 
     """
 
     # Initialization:
@@ -51,41 +43,36 @@ class Writer:
         self.pins: List[int] = [14, 15, 18, 23, 24, 25, 8, 7]
         self.stop: int = 12
 
+        # Library:
+        self.library: ctypes.CDLL = ctypes.CDLL("./one-step-writer/one-step-writer.so")
+
+        self.library.initialize_optimizations.restype = None
+        self.library.initialize_optimizations.argtypes = []
+
+        self.library.initialize_pins.restype = None
+        self.library.initialize_pins.argtypes = []
+
+        self.library.number_to_binary.restype = ctypes.c_char_p
+        self.library.number_to_binary.argtypes = [ctypes.c_ubyte]
+
+        self.library.write_pulse_modulation.restype = None
+        self.library.write_pulse_modulation.argtypes = [ctypes.c_int]
+
+        self.library.write_stop_pin.restype = None
+        self.library.write_stop_pin.argtypes = []
+
         # Logic:
-        self.initialize_pins()
-
-    # Methods:
-    def initialize_pins(self) -> None:
-        for pin in self.pins:
-            GPIO.setup(pin, GPIO.OUT)
-
-        GPIO.setup(self.stop, GPIO.OUT)
+        self.library.initialize_optimizations()
+        self.library.initialize_pins()
 
         if self.debug:
             logger.info("[*] Initialized GPIO output pins.")
 
-    def write(self, value: int) -> None:
-        # Logic:
-        self.clear()
-
-        # Variables (Assignment):
-        # Binary:
-        binary: str = format(value, "08b")
-
-        # Logic:
-        GPIO.output(self.stop, GPIO.LOW)
-
-        for iteration, bit in enumerate(binary[::-1]):
-            GPIO.output(self.pins[iteration], GPIO.HIGH if bit == "1" else GPIO.LOW)
+    # Methods:
+    def write_pulse_modulation(self, value: int) -> None:
+        self.library.write_pulse_modulation(value)
 
         logger.info(f"[*] Wrote {value} to GPIO pins.")
 
-    def clear(self) -> None:
-        for pin in self.pins:
-            GPIO.output(pin, GPIO.LOW)
-
-    def write_stop(self) -> None:
-        self.clear()
-
-        GPIO.output(self.stop, GPIO.HIGH)
-
+    def write_stop_pin(self) -> None:
+        self.library.write_stop_pin()
