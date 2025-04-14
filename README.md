@@ -10,6 +10,10 @@ This is the official source code repository powering the prosthetic leg for team
 
 - Learners: Contains learning models in the .pkl format, as well as the encoders for the particular models.
 
+- Optimizations: Contains the C-optimized bindings for extensive math functions to increase performance and reduce latency
+
+- Writer: Contains the C-optimized bindings for low level hardware access to GPIO pins, decreasing time in applying voltages to pins.
+
 ## Data:
 * Ensure that all .CSV files in the **data folder** have appropriate lengths, as this can mess the sliding window algorithm (each data buffer should have a length of three).
     * (Length of CSV file - 1) / 3
