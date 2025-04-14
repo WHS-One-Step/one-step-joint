@@ -24,6 +24,7 @@ This is the official source code repository powering the prosthetic leg for team
     * Link: https://github.com/christopher-gholmieh/one-step-learner
 
 ## Installation:
+Execute the following steps in a Linux terminal to install and run the project:
 ```bash
 # Clone Repository:
 git clone https://https://github.com/whs-one-step/one-step-joint && cd ./one-step-joint/
